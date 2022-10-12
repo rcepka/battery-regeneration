@@ -27,7 +27,7 @@ pacman::p_load(
 df_no_regeneration_BB <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1OQSABH5vFd6GjAXIxo3FRCiZOnnETrOzJh3apjAQ8xY",
   sheet = "no_regeneration-BB",
-  range = "A2:D67",
+  range = "A2:D87",
   #skip = 1
 )
 
@@ -62,8 +62,8 @@ plot_no_regneration_BB <- ggplot(
     position = "dodge",
   ) +
     scale_x_continuous(
-      limits = c(0, 16),
-      breaks = c(0:16),
+      limits = c(0, 21),
+      breaks = c(0, 7, 10, 14, 20, 21),
       "Years of battery use"
     ) +
     scale_y_continuous(
@@ -86,73 +86,67 @@ plot_no_regneration_BB <- ggplot(
       alpha = 0.95
     ) +
     geom_vline(
-      xintercept = 10,
+      xintercept = c(10, 20),
       color = "darkorange",
       size = 1,
       alpha = 0.75
     ) +
     annotate(
       "label",
-      x = 10.5, y = 100,
+      x = 15, y = 90,
       label = "Designed lifespan",
       size = 4,
-      hjust = 0.065,
+     # hjust = 0.065,
       fill = "orange",
       color = "white",
       fontface = "bold",
-      alpha = 0.7
+      #alpha = 0.7
     ) +
-    scale_color_manual(
-      values = c("dodgerblue4", "dodgerblue3", "dodgerblue2"),
-      #labels = guide_labels_preventive_BB,
-      guide = FALSE,
+  annotate(
+    geom = "segment",
+    x = c(10, 20), xend = c(15, 15), y = c(100, 100), yend = c(93, 93),
+    color = "darkorange",
+    size = 0.5,
+  ) +
+  scale_color_manual(
+    values = c("royalblue", "steelblue", "slateblue"),
+    #labels = guide_labels_preventive_BB,
+    guide = FALSE,
     ) +
-    scale_fill_manual(
-      values = c("dodgerblue4", "dodgerblue3", "dodgerblue2"),
-     # labels = c("red", "orange"),
+  scale_fill_manual(
+    values = c("royalblue", "steelblue", "slateblue"),
+    # labels = c("red", "orange"),
     )
 
-
+# Add more annotations
 plot_no_regneration_BB <- plot_no_regneration_BB +
    geom_point(
     aes(x = a, y = b),
-    data = data.frame(a = c(7, 14), b = c(75, 75)),
+    data = data.frame(a = c(7, 14, 21), b = c(75, 75, 75)),
     size = 5,
     color = "red"
     ) +
   annotate(
     geom = "segment",
-    #data = data.frame(a = c(7, 6), b = c(7, 5), d = c(75, 75), d = c(50, 50)),
-    x = 7, xend = 6, y = 75, yend = 50,
-    #x = mydata$a, xend = mydata$b, y = mydata$c, yend = mydata$d,
-    #x = a, xend = b, y = c, yend = d,
+    x = c(7, 14, 21), xend = c(14, 14, 14), y = c(75, 75, 75), yend = c(45, 45, 45),
     color = "red",
     size = 0.5,
-    #arrow = arrow(length = unit(3, "mm"))
     ) +
-  annotate(
-    geom = "segment",
-    x = 14, xend = 6, y = 75, yend = 50,
-    #x = mydata$a, xend = mydata$b, y = mydata$c, yend = mydata$d,
-    #x = a, xend = b, y = c, yend = d,
-    color = "red",
-    size = 0.5,
-    #arrow = arrow(length = unit(3, "mm"))
-  ) +
   geom_label(
-    aes(x = 6, y = 50,),
+    aes(x = 14, y = 40,),
     fill = "red",
     color = "white",
     label = "Points of battery\nearly replacement",
-    nudge_x = -1.5,
-    nudge_y = -7
+    size = 3,
+    # nudge_x = -1.5,
+    # nudge_y = -7
   )
 
 
 # Save it
   ggsave(
     plot = plot_no_regneration_BB,
-    here("currative-preventive", "output", "no_regeneration_BB.png"),
+    here( "charts", "currative-preventive", "output", "no_regeneration_BB.png"),
     dpi = 300,
     width = 2250, height = 1000, units = "px"
   )
@@ -460,9 +454,9 @@ ggsave(
 # Load basic data for backup batteries
 df_currative_BB <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1OQSABH5vFd6GjAXIxo3FRCiZOnnETrOzJh3apjAQ8xY",
-  sheet = "currative-BB",
+  sheet = 4,
   range = "A2:D59"
- # skip = 1
+  # skip = 1
 ) %>%
   rename(
     No.Regeneration = 2
@@ -511,19 +505,17 @@ labels_currative_BB <- dfl_currative_BB %>%
   summarise(Capacity = max(Capacity, na.rm = TRUE ))
 
 # Create colors scale for scale_color_manual()
-colors_currative_BB <- c(
-  "#0000a3", "#002800", "#004900", "#006a00", "#008a00", "#00ab00", "#00cc00", "#00ec00", "#0eff0e"
-)
+colors_currative_BB <- c("#0000a3", "#002800", "#004900")
 
 # Create alpha levels for scale_alpha()
 alphas_currative_BB <- c("#0.9", paste("#", seq(0.7, 0.35, by=-0.05), sep = ""))
 
 # Guide labels
-guide_labels_currative_BB = c("NONE", "FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH", "EIGHT")
+guide_labels_currative_BB = c("NONE", "FIRST", "SECOND")
 
 
 # Plot the chart
-currative_basic_BB <- ggplot(
+plot_currative_basic_BB <- ggplot(
   data = dfl_currative_BB,
   aes(
     x = Year,
@@ -542,7 +534,7 @@ currative_basic_BB <- ggplot(
   scale_x_continuous(
     limits = c(0, 14),
     #breaks = breaks_width(2),
-    breaks = c(0, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14),
+    breaks = c(0, 7, 10, 13, 14),
     "Years of battery use"
   ) +
   scale_y_continuous(
@@ -555,24 +547,24 @@ currative_basic_BB <- ggplot(
     color = "darkgoldenrod",
     size = 0.75,
     alpha = 0.75
-    ) +
-    geom_vline(
-      xintercept = 10,
-      color = "darkorange",
-      size = 1,
-      alpha = 0.95
-      ) +
-    annotate(
-      "label",
-      x = 10.5, y = 95,
-      label = "Designed lifespan",
-      size = 4,
-      hjust = 0.075,
-      fill = "orange",
-      color = "white",
-      fontface = "bold",
-      alpha = 0.7
-    ) +
+  ) +
+  geom_vline(
+    xintercept = 10,
+    color = "darkorange",
+    size = 1,
+    alpha = 0.95
+  ) +
+  annotate(
+    "label",
+    x = 10.5, y = 95,
+    label = "Designed lifespan",
+    size = 4,
+    hjust = 0.075,
+    fill = "orange",
+    color = "white",
+    fontface = "bold",
+    alpha = 0.7
+  ) +
   scale_color_manual(
     values = colors_currative_BB,
     #labels = guide_labels_currative_BB,
@@ -597,36 +589,65 @@ currative_basic_BB <- ggplot(
 
 # Save it
 ggsave(
-  plot = currative_basic_BB,
-  here("currative-preventive", "output", "currative_basic_BB.png"),
+  plot = plot_currative_basic_BB,
+  here( "charts", "currative-preventive", "output", "currative_basic_BB.png"),
   dpi = 300,
   width = 2250, height = 1000, units = "px"
 )
 
-
-# Add titles and description
-currative_with_titles_BB <- currative_basic_BB +
-  labs(
-    x = "Years of battery life",
-    y = "Battery capacity",
-    title = "currative regeneration",
-    subtitle = "Regeneration as a battery maintenance operation"
-  ) #+
-# geom_text(
-#   data = labels_currative_BB,
-#   aes(
-#     x = Year,
-#     y = Capacity,
-#     label = Capacity,
-#     ),
-#   nudge_y = 10
-#   ) +
-
+# Add more annotations
+plot_currative_basic_BB <- plot_currative_basic_BB +
+  geom_point(
+    aes(x = a, y = b),
+    data = data.frame(a = c(7, 10), b = c(75, 75)),
+    size = 5,
+    color = "yellowgreen"
+  ) +
+  geom_label(
+    aes(x = 3.5, y = 50),
+    fill = "yellowgreen" ,
+    color = "white",
+    label = "Points of battery\nregeneration",
+    size = 3,
+  ) +
+  annotate(
+    geom = "segment",
+    x = c(7, 10), xend = c(5, 5), y = c(75, 75), yend = c(55, 55),
+    color = "yellowgreen",
+  )
 
 # Save it
 ggsave(
-  plot = currative_with_titles_BB,
-  here("currative-preventive", "output", "currative_with_titles_BB.png"),
+  plot = plot_currative_basic_BB,
+  here( "charts", "currative-preventive", "output", "currative_basic_BB.png"),
+  dpi = 300,
+  width = 2250, height = 1000, units = "px"
+)
+
+# Add another regeneration or replacement
+plot_currative_basic_BB <- plot_currative_basic_BB +
+  geom_point(
+    aes(x = 13, y = 75),
+    size = 5,
+    color = "khaki4"
+  ) +
+  geom_label(
+    aes(x = 12, y = 50),
+    size = 2.75,
+    fill = "khaki4" ,
+    color = "white",
+    label = "Another regeneration\nor battery replacement"
+  ) +
+  annotate(
+    geom = "segment",
+    x = 13, xend = 12, y = 75, yend = 55,
+    color = "khaki4",
+  )
+
+# Save it
+ggsave(
+  plot = plot_currative_basic_BB,
+  here( "charts", "currative-preventive", "output", "currative_basic_BB.png"),
   dpi = 300,
   width = 2250, height = 1000, units = "px"
 )

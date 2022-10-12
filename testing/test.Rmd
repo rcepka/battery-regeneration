@@ -1,0 +1,110 @@
+---
+title: "Untitled"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+date: '2022-08-19'
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# ddsddds
+
+## Basic market
+
+```{r echo=FALSE}
+DiagrammeR::grViz("
+digraph abc {
+  graph [rankdir = LR]
+
+
+  node [shape = rectangle,
+        fontsize = 12]
+  all [label = 'All Lead-Acid\nbatteries']
+
+
+  node [shape = oval,
+        fontcolor = black,
+        fixedsize = true,
+        width = 1,
+        fontsize = 10]
+  backup [label = 'Backup/\ntelecom']
+  traction [label =  'Deep-cycle/\nForklift']
+  starter [label = 'Starter']
+
+
+  node [shape = none,
+        fontdize = 9,
+        fixedsize = true,
+        width = 1,
+        fillcolor = black]
+  industry [label = 'industry']
+  telecoms [label = 'telecoms']
+  3 [label = 'sdfdfffss']
+  4 [label = 'sdfdfffss']
+
+
+  trucks [label = 'Trucking companies']
+  public [label = 'Public transport']
+  car_repair [label = 'Car repair shops']
+
+
+
+
+  # edge definitions with the node IDs
+  all -> {backup traction starter}
+
+  backup -> {industry telecoms}
+
+  traction -> {3 4}
+
+  starter -> {trucks public car_repair}
+
+
+  }
+")
+```
+
+```{r echo = FALSE}
+source("graph2.R", local = knitr::knit_global())
+a
+```
+
+```{r echo = FALSE}
+library(googlesheets4)
+library(flextable)
+df <- read_sheet("https://docs.google.com/spreadsheets/d/1kH_hIYEc_KI0Dit8tpRHmeiYWCMjvQJh7pc7e4wjrA4",
+           range = "Sheet1!B11:D17")
+flextable(df) 
+
+```
+
+
+
+
+
+
