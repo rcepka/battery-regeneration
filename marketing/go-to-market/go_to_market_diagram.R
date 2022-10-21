@@ -19,7 +19,7 @@ pacman::p_load(
 
 googlesheets4::gs4_deauth()
 #googlesheets4::gs4_auth()
-
+# All batteries market size
 all_batteries_market <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1MnEXLg2WlwMoS88LThUBf3cMiPFvfIbBxvE5pjzvacs",
   sheet = 1,
@@ -67,6 +67,24 @@ ggsave(
   here("marketing", "go-to-market", "plots", "plot_all_batteries_market.png"),
   dpi = 300,
   width = 2250, height = 1000, units = "px"
+)
+
+
+
+
+googlesheets4::gs4_deauth()
+#googlesheets4::gs4_auth()
+# Lead acid batteries by type
+lead_acid_batteries_by_type <- read_sheet(
+  "https://docs.google.com/spreadsheets/d/1MnEXLg2WlwMoS88LThUBf3cMiPFvfIbBxvE5pjzvacs",
+  sheet = 2,
+  range = "A2:B5"
+)# %>%
+  dplyr::rename(Battery.Type = 1)
+
+write_csv (
+  lead_acid_batteries_by_type,
+  here("marketing", "go-to-market", "data", "lead_acid_batteries_by_type.csv")
 )
 
 

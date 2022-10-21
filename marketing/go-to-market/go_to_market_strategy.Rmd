@@ -10,12 +10,17 @@ output:
       Normal: First Paragraph
     toc: yes
     number_sections: yes
-  word_document:
-    toc: yes
+    page_margins:
+      bottom: 1
+      top: 1
+      right: 1.25
+      left: 1.25
+      header: 0.5
+      footer: 0.5
+      gutter: 0.5
   pdf_document:
     toc: yes
     keep_tex: yes
-    includes:
 ---
 
 ```{r setup, include=FALSE, show_col_types = FALSE}
@@ -33,22 +38,20 @@ ft <- fp_text(shading.color='#EFEFEF', bold = TRUE)
 
 \newpage
 
-
-
 # The market
 
 ## All main battery chemistries
 
-
-```{r echo=FALSE, fig.dim=c(4,2), fig.align = 'right'}
+```{r echo=FALSE, fig.dim=c(4,2), fig.align = 'left'}
 DiagrammeR::grViz("digraph {
   
   graph [layout = dot, rankdir = LR, overlap = true]
   
-  all_batteries [label = 'All batteries', shape = box, fontsize = 8]
-  node [fixedsize = true, width = 0.9, fontsize = 7]
-  lead_acid [label = 'Lead-Acid', shape = oval]
-  lithium [label = 'Lithium', shape = oval]
+  all_batteries [label = 'All batteries', fontsize = 8, shape = box]
+  
+  node [fixedsize = true, width = 0.9, fontsize = 7, shape = oval]
+  lead_acid [label = 'Lead-Acid']
+  lithium [label = 'Lithium']
   
   all_batteries -> lead_acid, lithium
   
@@ -57,10 +60,7 @@ DiagrammeR::grViz("digraph {
 )
 ```
 
-
-
 ## The market size
-
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.dim=c(5,2)}
 library(ggplot2)
@@ -98,19 +98,49 @@ ggplot(
 ```
 
 
- 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='left', tab.cap="cars"}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='left', tab.cap="All batteries market"}
 library(kableExtra)
 library(flextable)
-a <- readr::read_csv(here::here("marketing", "go-to-market", "data", "all_batteries_market.csv"))
-a <- dplyr::as_tibble(a)
-flextable(a)
+all_batteries_market <- readr::read_csv(here::here("marketing", "go-to-market", "data", "all_batteries_market.csv"))
+all_batteries_market <- dplyr::as_tibble(all_batteries_market)
+flextable(all_batteries_market)
 ```
+## Technology applicability & validation
+
+```{r echo=FALSE, fig.dim=c(5,2)}
+DiagrammeR::grViz("digraph {
+  
+  graph [layout = dot, rankdir = LR, overlap = true]
+  
+  applicability [label = 'All batteries', fontsize = 8, shape = box]
+  
+  node [fixedsize = true, fontsize = 7, shape = oval]
+  lead_acid [label = 'Lead-Acid']
+  lithium [label = 'Lithium']
+  
+  node [fontsize = 12, shape = none]
+  yes [label = 'Yes', background = green]
+  dont_know [label = '???' ]
+  
+  applicability -> lead_acid, lithium
+  lead_acid -> yes
+  lithium -> dont_know
+  
+}"
+  
+)
+```
+
+
 
 
 \newpage
 
 # Lead-acid batteries
+
+Because our technology is validated for lead-acid batteries only, we are going to focus on this market in the first stage.
+
+Applicability for lithium batteries is a subject of future research.
 
 ## Basic classifictaion by use
 
@@ -133,3 +163,19 @@ DiagrammeR::grViz("digraph {
 
 ```
 
+```{r echo=FALSE}
+lead_acid_batteries_by_type <- readr::read_csv(here::here("marketing", "go-to-market", "data", "lead_acid_batteries_by_type.csv"))
+lead_acid_batteries_by_type <- dplyr::as_tibble(lead_acid_batteries_by_type)
+flextable::flextable(lead_acid_batteries_by_type)
+```
+
+```{r echo=FALSE}
+ggplot(
+  data = lead_acid_batteries_by_type,
+  aes(
+    x = "", y = Market.Coverage, fill = Battery.Type
+  )
+) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start=0)
+```
