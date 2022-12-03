@@ -17,8 +17,9 @@ pacman::p_load(
 )
 
 
-googlesheets4::gs4_deauth()
-#googlesheets4::gs4_auth()
+gs4_deauth()
+
+
 # All batteries market size
 all_batteries_market <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1MnEXLg2WlwMoS88LThUBf3cMiPFvfIbBxvE5pjzvacs",
@@ -58,7 +59,7 @@ plot_all_batteries_market <- ggplot(
     ) +
   scale_fill_manual(values = c("green", "orange")) +
  # scale_colour_manual(values = c(Lead-Acid = "red", Lithium = "black"))
-  theme_bw()
+  theme_ipsum_rc()
 
 
 # Save the plot
@@ -73,7 +74,7 @@ ggsave(
 
 
 googlesheets4::gs4_deauth()
-#googlesheets4::gs4_auth()
+
 # Lead acid batteries by type
 lead_acid_batteries_by_type <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1MnEXLg2WlwMoS88LThUBf3cMiPFvfIbBxvE5pjzvacs",

@@ -1,0 +1,42 @@
+---
+date: "`r Sys.Date()`"
+author: "Your Name"
+title: "Untitled"
+output: 
+  officedown::rpptx_document:
+    reference_doc: evs.pptx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.cap = TRUE)
+library(officedown)
+library(officer)
+library(ggplot2)
+library(rvg)
+```
+
+
+
+
+# Test pg
+
+
+```{r}
+library(officer)
+library(dplyr)
+library(ggplot2)
+library(flextable)
+my_gg <- ggplot(airquality, aes(Ozone,Wind)) + geom_point()
+my_ft <- qflextable(head(airquality, n = 11))
+read_pptx(path = "evs.pptx") %>% 
+  add_slide(layout = "Two Content", master = "Office Theme") %>% 
+  ph_with("My first slide", location = ph_location_type(type = "title")) %>% 
+  ph_with(my_gg, location = ph_location_label(ph_label = "ph_left")) %>%
+  ph_with(my_ft, location = ph_location_label(ph_label = "ph_right")) %>% 
+  print(target = "evs.pptx")
+
+
+```
+
+
+
