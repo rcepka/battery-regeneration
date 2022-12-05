@@ -1,10 +1,18 @@
 ---
 date: "`r Sys.Date()`"
 author: "Your Name"
-title: "Untitled"
+title: "Product pricing"
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 output: 
   officedown::rpptx_document:
-    reference_doc: evs.pptx
+    toc: false
+  html_document:
+    toc: true
+  pdf_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -13,30 +21,84 @@ library(officedown)
 library(officer)
 library(ggplot2)
 library(rvg)
+library(flextable)
 ```
 
 
 
-
-# Test pg
-
+## Cars table
 
 ```{r}
-library(officer)
-library(dplyr)
-library(ggplot2)
-library(flextable)
-my_gg <- ggplot(airquality, aes(Ozone,Wind)) + geom_point()
-my_ft <- qflextable(head(airquality, n = 11))
-read_pptx(path = "evs.pptx") %>% 
-  add_slide(layout = "Two Content", master = "Office Theme") %>% 
-  ph_with("My first slide", location = ph_location_type(type = "title")) %>% 
-  ph_with(my_gg, location = ph_location_label(ph_label = "ph_left")) %>%
-  ph_with(my_ft, location = ph_location_label(ph_label = "ph_right")) %>% 
-  print(target = "evs.pptx")
+as.character("sdddddd")
 
+```
+
+<h1>Heading 1</h1>
+
+-   LARGE TEXT
+
+-   dfdfdf
+
+-   fdf
+
+
+
+## Table 2
+
+
+```{r ph=officer::ph_location(width = 5, height = 5, left = 5, top = 5)}
+flextable::flextable(head(cars))
 
 ```
 
 
+## Test 3
+
+some text here
+- some
+- text
+
+```{r ph=officer::ph_location_right()}
+a <- flextable::flextable(head(cars))
+a
+```
+
+
+## Test 4
+
+some text here
+- some
+- text
+
+```{r ph=officer::ph_location(width = 5, height = 5, left = 15, top = 5)}
+dat <- head(airquality, n = 3)
+flextable(dat)
+```
+
+
+
+## Table
+
+```{r layout='Two Content', ph=officer::ph_location_left()}
+head(cars)
+```
+
+```{r layout='Two Content', ph=officer::ph_location_right()}
+flextable(head(iris))
+```
+
+
+
+## Diagrammer
+
+```{r}
+d <- DiagrammeR::grViz("
+            digraph mygraph {
+            
+            rankdir=LR
+            A -> B
+            A -> C
+            }")
+d
+```
 
