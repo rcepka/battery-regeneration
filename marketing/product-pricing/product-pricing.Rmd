@@ -1,0 +1,105 @@
+---
+date: "`r Sys.Date()`"
+author: "Your Name"
+title: "Product pricing"
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+always_allow_html: true
+output: 
+  officedown::rpptx_document:
+    toc: false
+  html_document:
+    toc: true
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.cap = TRUE)
+library(officedown)
+library(officer)
+library(ggplot2)
+library(rvg)
+library(flextable)
+```
+
+
+
+## Cars table
+
+```{r}
+as.character("sdddddd")
+
+```
+
+<h1>Heading 1</h1>
+
+-   LARGE TEXT
+
+-   dfdfdf
+
+-   fdf
+
+
+
+## Table 2
+
+
+```{r ph=officer::ph_location(width = 5, height = 5, left = 5, top = 5)}
+flextable::flextable(head(cars))
+
+```
+
+
+## Test 3
+
+some text here
+- some
+- text
+
+```{r ph=officer::ph_location_right()}
+a <- flextable::flextable(head(cars))
+a
+```
+
+
+## Test 4
+
+some text here
+- some
+- text
+
+```{r ph=officer::ph_location(width = 5, height = 5, left = 15, top = 5)}
+dat <- head(airquality, n = 3)
+flextable(dat)
+```
+
+
+
+## Table
+
+```{r layout='Two Content', ph=officer::ph_location_left()}
+head(cars)
+```
+
+```{r layout='Two Content', ph=officer::ph_location_right()}
+flextable(head(iris))
+```
+
+
+
+## Diagrammer
+
+```{r}
+d <- DiagrammeR::grViz("
+            digraph mygraph {
+            
+            rankdir=LR
+            A -> B
+            A -> C
+            }")
+d
+```
+

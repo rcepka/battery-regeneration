@@ -3,7 +3,9 @@ if (!require("pacman")) install.packages("pacman")
 
 pacman::p_load(
   tidyverse,
+  dplyr,
   readxl,
+  readr,
   highcharter,
   here,
   directlabels,
@@ -16,14 +18,14 @@ pacman::p_load(
 # Import data from excell
 # ...for backup batteries
 data_backup <- read_excel(
-  here("data", "battery_total_ownership_costs.xlsx"),
+  here("charts", "total_ownership_costs", "data", "battery_total_ownership_costs.xlsx"),
   sheet = 1,
   skip = 21
   )
 
 # ...for forklift batteries
 data_forklift <- read_excel(
-  here("data", "battery_total_ownership_costs.xlsx"),
+  here("charts", "total_ownership_costs", "data", "battery_total_ownership_costs.xlsx"),
   sheet = 2,
   skip = 21
   )
@@ -51,7 +53,7 @@ data_backup <- data_backup %>%
     Regeneration.Costs = Regeneration.Costs * 100,
     #Regeneration.Costs = paste(Regeneration.Costs * 100, "%", sep = "")
   ) %>%
-  write_csv(here("data", "battery_TOC_backup.csv"))
+  write_csv(here("charts", "total_ownership_costs", "data", "battery_TOC_backup.csv"))
 
 
 ggplot(data_backup,
