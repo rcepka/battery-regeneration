@@ -39,3 +39,4 @@ data2 <- data %>%
 d <- data_frame(a = c("1.2,2.9,3","4.8,5,9", "1,2,3"), b=c(1:3))
 d2 <- separate_rows(d,1, convert=FALSE)
 d3 <- separate_rows(d,1, convert=TRUE)
+
