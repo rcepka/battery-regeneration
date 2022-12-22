@@ -6,6 +6,7 @@ header-includes:
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
+always_allow_html: true
 output: 
   officedown::rpptx_document:
     toc: false
