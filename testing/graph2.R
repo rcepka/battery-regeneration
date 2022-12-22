@@ -1,5 +1,5 @@
 
-
+if (!require("pacman")) install.packages("pacman")
 
 pacman::p_load(
   tidyverse,
@@ -12,6 +12,7 @@ pacman::p_load(
   eurostat,
   DiagrammeR
 )
+
 
 grViz("
 digraph abc {
