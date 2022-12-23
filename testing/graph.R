@@ -56,6 +56,7 @@ edges_1 <-
 graph <- create_graph()
 class(graph)
 
+
 get_node_df(graph)
 
 
