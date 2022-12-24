@@ -25,7 +25,8 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
       menuItem("Widgets", tabName = "widgets", icon = icon("th"))
-    )
+    ),
+    sliderInput("slider2", "Number of observations:", 1, 100, 50)
 
   ),
 
@@ -35,10 +36,13 @@ ui <- dashboardPage(
     fluidRow(
       box(
         title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
+        sliderInput("slider", "Number of observations:", 1, 100, 50),
+        actionButton("action", "My button")
       ),
-
-      textOutput(outputId = "out")
+      box(
+        textOutput(outputId = "out"),
+        textOutput("action_out")
+      )
 
 
     )
@@ -51,11 +55,17 @@ ui <- dashboardPage(
 
 
 server <- function(input, output) {
-  a <- "slider"
-  output$out <- renderText({
-    paste("slider:", input$slider)
-    })
 
+  observeEvent(input$action, {
+
+    output$action_out <- renderText(
+      {runif(paste
+        ("slider: ", input$slider)
+      )
+        }
+      )
+    }
+  )
   }
 
 shinyApp(ui, server)
