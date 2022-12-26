@@ -9,7 +9,8 @@ pacman::p_load(
   readr,
   here,
   ggthemes,
-  scales
+  scales,
+  ggplot2
 )
 
 
@@ -39,11 +40,75 @@ backup_batt <- backup_batt %>%
 backup_batt <- backup_batt %>%
   mutate(
     TOC.savings.y.eur = TOC.y - TOC.Regeneration.y,
-    TOC.savings.y.perc = 1 - TOC.Regeneration.y / TOC.y,
+    TOC.savings.y.perc = (1 - TOC.Regeneration.y / TOC.y),
     Lifetime.Savings = TOC.savings.y.eur * Years.Total
     )
 
 
+dataset1 <- backup_batt %>%
+  filter(
+    Years.Initial == 7,
+    Years.Prolonged == 3,
+    Battery.Costs %in% c(100, 150, 200),
+    Regeneration.Costs %in% c(15, 20, 30, 40, 50)
+  )
+
+dataset2 <- backup_batt %>%
+  filter(
+    Years.Initial == 7,
+    Years.Prolonged == 3,
+    Battery.Costs %in% c(75, 100, 150, 200),
+    #Regeneration.Costs %in% c(15, 20, 30, 40, 50)
+  )
+
+dataset3 <- backup_batt %>%
+  filter(
+    Years.Initial == 7,
+    Years.Prolonged == 3,
+    Battery.Costs %in% c(75, 150, 250, 500),
+    #Regeneration.Costs %in% c(15, 20, 30, 40, 50)
+  )
+
+
+
+
+ggplot(
+  data = dataset3,
+  aes(
+    x = Regeneration.Costs,
+    y = TOC.savings.y.perc,
+    color = factor(Battery.Costs),
+    #size = Lifetime.Savings,
+   # color = factor(Lifetime.Savings),
+   ),
+  ) +
+  geom_point(
+    #aes(group = Lifetime.Savings)
+  ) +
+  scale_y_continuous(labels = label_percent()) +
+  scale_x_continuous(labels = label_dollar(
+    prefix = "",
+    suffix = "€"
+  ))
+
+ggplot(
+  data = dataset1,
+  aes(
+    x = Regeneration.Costs,
+    y = TOC.savings.y.perc,
+    color = factor(Battery.Costs),
+    size = Lifetime.Savings,
+    # color = factor(Lifetime.Savings),
+  ),
+) +
+  geom_point(
+    #aes(group = Lifetime.Savings)
+  ) +
+  scale_y_continuous(labels = label_percent()) +
+  scale_x_continuous(labels = label_dollar(
+    prefix = "",
+    suffix = "€"
+  ))
 
 
 
@@ -51,8 +116,31 @@ backup_batt <- backup_batt %>%
 ggplot(
   data = backup_batt,
   aes(
-    x = Years.Prolonged,
-    y = Reg.Costs
-  )
+    x = Battery.Costs,
+    y = Regeneration.Costs,
+    size = Lifetime.Savings
+  ),
+
 ) +
-  geom_point()
+  geom_point(
+    # size = Lifetime.Savings
+  )
+
+
+ggplot(
+  data = dataset2,
+  aes(
+    x = Battery.Costs,
+    y = Regeneration.Costs,
+    #size = Lifetime.Savings
+  ),
+  ) +
+  geom_boxplot(
+    aes(group = Battery.Costs)
+    ) +
+  geom_jitter(
+    # size = Lifetime.Savings
+    ) +
+  scale_x_continuous (breaks=c(75, 100, 150, 200))
+
+
