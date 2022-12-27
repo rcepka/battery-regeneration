@@ -5,6 +5,7 @@ pacman::p_load(
   googlesheets4,
   googledrive,
   readxl,
+  readr,
   highcharter,
   here,
   directlabels,
