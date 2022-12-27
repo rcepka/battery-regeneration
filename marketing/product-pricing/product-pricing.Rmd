@@ -98,6 +98,7 @@ d <- DiagrammeR::grViz("
             rankdir=LR
             A -> B
             A -> C
+            
             }")
 d
 ```
