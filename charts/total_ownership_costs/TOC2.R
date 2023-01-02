@@ -16,7 +16,6 @@ pacman::p_load(
 
 
 
-
 backup_batt <- tibble (
   Years.Initial = rep(5:10, each = 1, times = 5000),
   Years.Prolonged = rep(1:5, each = 6, times=1000),
