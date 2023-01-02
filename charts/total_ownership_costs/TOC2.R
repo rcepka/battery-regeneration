@@ -49,7 +49,7 @@ dataset1 <- backup_batt %>%
   filter(
     Years.Initial == 7,
     Years.Prolonged == 3,
-    Battery.Costs %in% c(100, 150, 200),
+    Battery.Costs %in% c(75, 100, 150, 200),
     Regeneration.Costs %in% c(15, 20, 30, 40, 50)
   )
 
@@ -114,6 +114,55 @@ ggplot(
 
 
 ggplot(
+  data = dataset1,
+  aes(
+    x = Regeneration.Costs,
+    y = Battery.Costs,
+    #y = TOC.savings.y.perc,
+    #color = factor(Battery.Costs),
+    size = TOC.savings.y.perc,
+   # color = factor(TOC.savings.y.perc),
+  ),
+) +
+  geom_point(
+    #aes(group = Lifetime.Savings)
+  )
+
+
+
+
+
+
+
+
+
+ggplot(
+  data = dataset1,
+  aes(
+    x = Regeneration.Costs,
+    y = TOC.savings.y.perc,
+    color = factor(Battery.Costs),
+    #size = Lifetime.Savings,
+    # color = factor(Lifetime.Savings),
+  ),
+) +
+  geom_line(
+    #aes(group = Lifetime.Savings)
+  ) +
+  scale_y_continuous(
+    labels = label_percent(),
+    #limits = c(-0.2, 0.3),
+    limits = c(as.numeric(min(dataset1$TOC.savings.y.perc)), as.numeric(max(dataset1$TOC.savings.y.perc))),
+    breaks = seq(as.numeric(min(dataset1$TOC.savings.y.perc)) : as.numeric(max(dataset1$TOC.savings.y.perc)), by = 0.1),
+    #breaks = seq(-0.2 : 0.25, by = 0.1),
+   # breaks = c(-0.2, 0, 0.2, 0.3)
+    ) +
+  scale_x_continuous(
+    labels = label_dollar(prefix = "", suffix = "€"))
+
+
+
+ggplot(
   data = backup_batt,
   aes(
     x = Battery.Costs,
@@ -127,12 +176,13 @@ ggplot(
   )
 
 
+
 ggplot(
   data = dataset2,
   aes(
     x = Battery.Costs,
     y = Regeneration.Costs,
-    #size = Lifetime.Savings
+    size = Lifetime.Savings
   ),
   ) +
   geom_boxplot(
