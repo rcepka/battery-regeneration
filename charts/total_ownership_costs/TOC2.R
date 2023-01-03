@@ -10,12 +10,13 @@ pacman::p_load(
   here,
   ggthemes,
   scales,
-  ggplot2
+  ggplot2,
+  DT
 )
 
 
 
-
+# Create the main dataset
 backup_batt <- tibble (
   Years.Initial = rep(5:10, each = 1, times = 5000),
   Years.Prolonged = rep(1:5, each = 6, times=1000),
@@ -24,7 +25,8 @@ backup_batt <- tibble (
 )
 
 
-backup_batt <- backup_batt %>%
+# Adjust main dataset, do calcullations
+backup_batt.TOC <- backup_batt %>%
   mutate(
     Years.Total = Years.Initial + Years.Prolonged,
     TOC.y = num(Battery.Costs / Years.Initial, digits = 2),
@@ -34,25 +36,31 @@ backup_batt <- backup_batt %>%
   relocate(Years.Total, .after = Years.Prolonged) %>%
   relocate(TOC.y, .after = Battery.Costs) %>%
   relocate(Regeneration.Costs, .after = TOC.y) %>%
-  relocate(TOC.Regeneration, .after = Regeneration.Costs)
-
-backup_batt <- backup_batt %>%
+  relocate(TOC.Regeneration, .after = Regeneration.Costs) %>%
   mutate(
     TOC.savings.y.eur = TOC.y - TOC.Regeneration.y,
     TOC.savings.y.perc = (1 - TOC.Regeneration.y / TOC.y),
     Lifetime.Savings = TOC.savings.y.eur * Years.Total
-    )
+  )
 
 
-dataset1 <- backup_batt %>%
+
+
+dataset1 <- backup_batt.TOC %>%
   filter(
     Years.Initial == 7,
     Years.Prolonged == 3,
     Battery.Costs %in% c(75, 100, 150, 200),
     Regeneration.Costs %in% c(15, 20, 30, 40, 50)
   )
+datatable(dataset1) %>%
+  formatCurrency(c(4, 5, 6, 7, 8, 9, 10, 12), "€", digits = 1) %>%
+  formatPercentage(11, digits = 1)
 
-dataset2 <- backup_batt %>%
+
+
+
+dataset2 <- backup_batt.TOC %>%
   filter(
     Years.Initial == 7,
     Years.Prolonged == 3,
@@ -60,13 +68,15 @@ dataset2 <- backup_batt %>%
     #Regeneration.Costs %in% c(15, 20, 30, 40, 50)
   )
 
-dataset3 <- backup_batt %>%
+dataset3 <- backup_batt.TOC %>%
   filter(
     Years.Initial == 7,
     Years.Prolonged == 3,
     Battery.Costs %in% c(75, 150, 250, 500),
     #Regeneration.Costs %in% c(15, 20, 30, 40, 50)
   )
+
+
 
 
 
