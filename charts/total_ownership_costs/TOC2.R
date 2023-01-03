@@ -187,19 +187,34 @@ ggplot(
 
 
 ggplot(
-  data = dataset2,
+  data = backup_batt.TOC %>%
+    filter(
+      #Years.Initial == 7,
+      #Years.Prolonged == 3,
+      Battery.Costs %in% c(100, 200, 300),
+      Regeneration.Costs %in% seq(0, 50, by = 5)
+      ),
   aes(
     x = Battery.Costs,
     y = Regeneration.Costs,
-    size = Lifetime.Savings
+    size = Lifetime.Savings,
+   # size = TOC.savings.y.perc,
+    #color = (TOC.savings.y.perc),
+   # color = factor(Lifetime.Savings)
+   color = Years.Prolonged
   ),
   ) +
   geom_boxplot(
-    aes(group = Battery.Costs)
+    aes(
+      group = Battery.Costs,
+     # color = factor(Battery.Costs),
+      )
     ) +
   geom_jitter(
-    # size = Lifetime.Savings
+    # size = Lifetime.Savings,
+    alpha = 0.75,
     ) +
-  scale_x_continuous (breaks=c(75, 100, 150, 200))
+  scale_x_continuous (breaks=c(100, 200, 300)) +
+  facet_wrap(~Years.Initial, nrow = 2 )
 
 
