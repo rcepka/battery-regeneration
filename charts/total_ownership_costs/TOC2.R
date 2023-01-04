@@ -11,7 +11,8 @@ pacman::p_load(
   ggthemes,
   scales,
   ggplot2,
-  DT
+  DT,
+  ggforce
 )
 
 
@@ -189,7 +190,7 @@ ggplot(
 ggplot(
   data = backup_batt.TOC %>%
     filter(
-      #Years.Initial == 7,
+      Years.Initial == 7,
       #Years.Prolonged == 3,
       Battery.Costs %in% c(100, 200, 300),
       Regeneration.Costs %in% seq(0, 50, by = 5)
@@ -215,6 +216,48 @@ ggplot(
     alpha = 0.75,
     ) +
   scale_x_continuous (breaks=c(100, 200, 300)) +
+  geom_mark_ellipse(
+    aes(
+      fill = "red",
+      filter = Regeneration.Costs == 40,
+      label = "Species"
+      )
+    )
+
   facet_wrap(~Years.Initial, nrow = 2 )
+
+
+
+
+
+# Geom_tile
+ggplot(
+  data = backup_batt.TOC %>%
+    filter(
+      Years.Initial == 7,
+      #Years.Prolonged == 3,
+      Battery.Costs %in% c(100, 150, 200, 250, 300),
+      Regeneration.Costs %in% seq(0, 100, by = 5)
+    ),
+  aes(
+    x = Battery.Costs,
+    y = Regeneration.Costs,
+    #size = Lifetime.Savings,
+    # size = TOC.savings.y.perc,
+    #color = (TOC.savings.y.perc),
+    # color = factor(Lifetime.Savings)
+    #color = Years.Prolonged
+  ),
+) +
+  geom_tile(
+    aes(
+     # fill = Lifetime.Savings,
+      fill = TOC.savings.y.perc,
+      color = "grey50"
+      # color = factor(Battery.Costs),
+    )
+  ) +
+  scale_x_continuous (breaks=c(100, 150, 200, 250, 300))
+
 
 
