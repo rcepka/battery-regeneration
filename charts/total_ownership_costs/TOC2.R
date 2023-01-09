@@ -17,6 +17,9 @@ pacman::p_load(
 
 
 
+
+
+
 # Create the main dataset
 backup_batt <- tibble (
   Years.Initial = rep(5:10, each = 1, times = 5000),
@@ -24,6 +27,7 @@ backup_batt <- tibble (
   Regeneration.Costs = rep(1:100, each = 30, times = 10),
   Battery.Costs = rep( c(75, 100, 125, 150, 175, 200, 250, 300, 400, 500), each = 3000, times = 1)
 )
+
 
 
 # Adjust main dataset, do calcullations
