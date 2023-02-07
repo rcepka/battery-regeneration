@@ -577,13 +577,6 @@ guide_labels_currative_BB = c("NONE", "FIRST", "SECOND", "THIRD")
     size = 2,
     alpha = 0.75
   ) +
-  # geom_label(
-  #   aes(x = 1, y = 80),
-  #   fill = "darkorange" ,
-  #   color = "white",
-  #   label = "Acceptable battery\ncapacity",
-  #   size = 4,
-  # ) +
   geom_point(
     aes(x = a, y = b),
     data = data.frame(a = c(7, 10, 13), b = c(75, 75, 75)),
@@ -602,13 +595,6 @@ guide_labels_currative_BB = c("NONE", "FIRST", "SECOND", "THIRD")
     label = df$t,
     size = 3,
     ) +
-  # geom_label(
-  #   aes(x = 5, y = 50),
-  #   fill = "yellowgreen" ,
-  #   color = "white",
-  #   label = "Points of battery\nregeneration",
-  #   size = 3,
-  # ) +
   annotate(
     geom = "segment",
     x = c(7, 10, 13), xend = c(7, 7, 7), y = c(75, 75, 75), yend = c(55, 55, 55),

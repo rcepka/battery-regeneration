@@ -32,8 +32,9 @@ data2 <- data %>%
   drop_na()
 
 
-
-
+# dsd
+# sds
+# d
 
 
 
