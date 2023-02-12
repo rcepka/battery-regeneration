@@ -6,28 +6,79 @@
 #
 #    http://shiny.rstudio.com/
 #
+if (!require("pacman")) install.packages("pacman")
 
-library(shiny)
+pacman::p_load(
+  shiny,
+  tidyverse,
+  ggplot2,
+  plotly,
+  DT,
+  reactable,
+  shinyWidgets
+)
+
+# library(shiny)
+# library(tidyverse)
+# library(ggplot2)
+# library(plotly)
+# library(DT)
+
+source("data.R")
+
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+shinyUI(
+
+  fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Battery total ownership costs"),
 
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+
+    wellPanel(
+
+      fluidRow(
+
+        column(3,
+
+               selectInput("in_battery_costs", label = "Battery costs",
+                           choices = battery_costs
+                           #selected = 1
+                           ),
         ),
 
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
+        column(3,
+
+               selectInput("in_regeneration_costs", label = "Regeneration costs",
+                           choices = regeneration_costs,
+                           selected = 15
+              ),
+        ),
+
+        column(3,
+
+               selectInput("in_initial_years", "Initial years",
+                          choices = initial_years)
+               ),
         )
+      ),
+
+
+    # Another row
+    fluidRow(
+
+      column(6,
+             #plotOutput("ggplot"),
+             plotlyOutput("plotly"),
+             ),
+
+
+      column(6,
+             DTOutput("dttable"),
+             reactableOutput("reacttable"),
+             )
+
+      )
     )
-))
+  )
