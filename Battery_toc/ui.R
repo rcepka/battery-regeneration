@@ -15,14 +15,10 @@ pacman::p_load(
   plotly,
   DT,
   reactable,
+  reactablefmtr,
   shinyWidgets
 )
 
-# library(shiny)
-# library(tidyverse)
-# library(ggplot2)
-# library(plotly)
-# library(DT)
 
 source("data.R")
 
@@ -38,7 +34,7 @@ shinyUI(
 
     wellPanel(
 
-      fluidRow(
+      fluidRow(width="50%", height = "500px",
 
         column(3,
 
@@ -61,7 +57,7 @@ shinyUI(
                selectInput("in_initial_years", "Initial years",
                           choices = initial_years)
                ),
-        )
+        ),
       ),
 
 
@@ -70,7 +66,7 @@ shinyUI(
 
       column(6,
              #plotOutput("ggplot"),
-             plotlyOutput("plotly"),
+             plotlyOutput("plotly_savings_e"),
              ),
 
 
