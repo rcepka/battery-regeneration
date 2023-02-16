@@ -108,22 +108,22 @@ output$reacttable <- renderReactable({
 # Plot
 # ************************************
 
-# # Plot rendering GGPlot
-# output$ggplot <- renderPlot({
-#   backup_batt.TOC_df() %>%
-#     ggplot(
-#       aes(
-#         x = Years.Prolonged,
-#         y = Lifetime.Savings
-#         #size = Years.Initial,
-#         #fill = as.factor(Years.Prolonged)
-#         )
-#       ) +
-#     geom_bar(stat = "identity") +
-#     scale_fill_hue(c = 60) +
-#     theme(legend.position="none")
-#
-# })
+# Plot rendering GGPlot
+output$ggplot <- renderPlot({
+  backup_batt.TOC_df() %>%
+    ggplot(
+      aes(
+        x = Years.Prolonged,
+        y = Lifetime.Savings
+        #size = Years.Initial,
+        #fill = as.factor(Years.Prolonged)
+        )
+      ) +
+    geom_bar(stat = "identity") +
+    scale_fill_hue(c = 60) +
+    theme(legend.position="none")
+
+})
 
 # Plot rendering Plotly
 output$plotly_savings_e <- renderPlotly({

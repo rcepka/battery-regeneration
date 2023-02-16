@@ -65,9 +65,18 @@ shinyUI(
     fluidRow(
 
       column(6,
-             #plotOutput("ggplot"),
-             plotlyOutput("plotly_savings_e"),
-             ),
+
+             tabsetPanel(
+
+
+               tabPanel("Name", plotlyOutput("plotly_savings_e"),
+                 ),
+
+               tabPanel("Name2", plotOutput("ggplot"),
+                 #"Hello"
+               )
+             )
+      ),
 
 
       column(6,
