@@ -33,7 +33,7 @@ shinyUI(
 
     wellPanel(
 
-      fluidRow(width="50%", height = "500px",
+      fluidRow(
 
         column(3,
 
@@ -64,15 +64,15 @@ shinyUI(
     fluidRow(
 
       column(6,
-
              tabsetPanel(
-               tabPanel("Name", plotlyOutput("plotly_savings_e")),
-               tabPanel("Name2", plotOutput("ggplot"))
+               tabPanel("Name", plotlyOutput("plotly_savings_e", height = "300px")),
+               tabPanel("Name2", plotOutput("ggplot", height = "300px"))
              )
       ),
 
 
       column(6,
+             h3("Total ownership costs data"),
              reactableOutput("reacttable"),
              )
 
