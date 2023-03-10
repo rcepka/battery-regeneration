@@ -45,7 +45,7 @@ output$reacttable <- renderReactable({
               align = "center"
               ),
             highlight = TRUE,
-            bordered = TRUE,
+            bordered = F,
             columns = list(
               TOC.y = colDef(
                 name = "Battery",
@@ -107,9 +107,9 @@ output$ggplot <- renderPlot({
     ggplot(
       aes(
         x = Years.Prolonged,
-        y = Lifetime.Savings
+        y = Lifetime.Savings,
         #size = Years.Initial,
-        #fill = as.factor(Years.Prolonged)
+        fill = as.factor(Years.Prolonged)
         )
       ) +
     geom_bar(stat = "identity") +
@@ -124,8 +124,18 @@ output$plotly_savings_e <- renderPlotly({
     plot_ly(
       x = ~Years.Prolonged,
       y = ~Lifetime.Savings,
-      type = "bar"
-      )
+      type = "bar",
+      #color = ~Lifetime.Savings < 0, colors = c("green", "red"),
+      color = ifelse(backup_batt.TOC_df()$Lifetime.Savings>=0,"red", "blue"),
+      showlegend = F,
+      name = "Lifetime Savings"
+      ) %>%
+    add_text(
+      text = ~Lifetime.Savings,
+      textposition = "top middle",
+      cliponaxis = FALSE
+    ) %>%
+    config(displayModeBar = F)
 })
 
 

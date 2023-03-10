@@ -6,76 +6,117 @@
 #
 #    http://shiny.rstudio.com/
 #
-if (!require("pacman")) install.packages("pacman")
 
-pacman::p_load(
-  shiny,
-  tidyverse,
-  ggplot2,
-  plotly,
-  reactable,
-  reactablefmtr,
-  shinyWidgets
-)
-
-
-source("data.R")
+#source("data.R")
 
 
 # Define UI for application that draws a histogram
-shinyUI(
+#shinyUI(
+
+  # # Version I
+  # fluidPage(
+  #
+  #   # Application title
+  #   titlePanel("Battery total ownership costs"),
+  #
+  #
+  #   wellPanel(
+  #
+  #     fluidRow(
+  #
+  #       column(3,
+  #
+  #              selectInput("in_battery_costs", label = "Battery costs",
+  #                          choices = battery_costs
+  #                          #selected = 1
+  #                          ),
+  #       ),
+  #
+  #       column(3,
+  #
+  #              selectInput("in_regeneration_costs", label = "Regeneration costs",
+  #                          choices = regeneration_costs,
+  #                          selected = 15
+  #             ),
+  #       ),
+  #
+  #       column(3,
+  #
+  #              selectInput("in_initial_years", "Initial years",
+  #                         choices = initial_years)
+  #              ),
+  #       ),
+  #     ),
+  #
+  #
+  #   # Another row
+  #   fluidRow(
+  #
+  #     column(6,
+  #            tabsetPanel(
+  #              tabPanel("Name", plotlyOutput("plotly_savings_e", height = "300px")),
+  #              tabPanel("Name2", plotOutput("ggplot", height = "300px"))
+  #            )
+  #     ),
+  #
+  #
+  #     column(6,
+  #            h3("Total ownership costs data"),
+  #            reactableOutput("reacttable"),
+  #            )
+  #
+  #     )
+  #   )
+
+#
+#
+#
+#
+
+
+  # Version II
+
+# Define UI for application that draws a histogram
+ui <- shinyUI(
+
+
 
   fluidPage(
+
+    theme = bs_theme(bootswatch = "minty"),
 
     # Application title
     titlePanel("Battery total ownership costs"),
 
+    sidebarLayout(
 
-    wellPanel(
+      sidebarPanel(width = 2,
 
-      fluidRow(
+        selectInput("in_battery_costs", label = "Battery costs",
+                                   choices = battery_costs
+                                   #selected = 1
+                          ),
 
-        column(3,
+        selectInput("in_regeneration_costs", label = "Regeneration costs",
+                             choices = regeneration_costs,
+                             selected = 15
+                    ),
 
-               selectInput("in_battery_costs", label = "Battery costs",
-                           choices = battery_costs
-                           #selected = 1
-                           ),
-        ),
-
-        column(3,
-
-               selectInput("in_regeneration_costs", label = "Regeneration costs",
-                           choices = regeneration_costs,
-                           selected = 15
-              ),
-        ),
-
-        column(3,
-
-               selectInput("in_initial_years", "Initial years",
-                          choices = initial_years)
-               ),
-        ),
+        selectInput("in_initial_years", "Initial years",
+                             choices = initial_years
+                    )
       ),
 
 
-    # Another row
-    fluidRow(
+    mainPanel(width = 10,
 
-      column(6,
-             tabsetPanel(
-               tabPanel("Name", plotlyOutput("plotly_savings_e", height = "300px")),
-               tabPanel("Name2", plotOutput("ggplot", height = "300px"))
-             )
-      ),
-
-
-      column(6,
-             h3("Total ownership costs data"),
-             reactableOutput("reacttable"),
-             )
-
-      )
+      tabsetPanel(
+               tabPanel("Chart", class = "p-3 border border-top-0 rounded-bottom", plotlyOutput("plotly_savings_e", height = "300px")),
+               tabPanel("Table", class = "p-3 border border-top-0 rounded-bottom",  reactableOutput("reacttable"))
+            ),
+      #reactableOutput("reacttable")
+      #plotOutput("ggplot", height = "300px")
+    )
     )
   )
+)
